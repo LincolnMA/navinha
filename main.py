@@ -9,8 +9,13 @@ def update_screen():
     #render_enemy_fire()
     render_player()
     render_enemies()
+    detect_player_collision()
+    #detect_fire_collision()
     screen.focus_set()
-    screen.after(delay_update.get(),update_screen)
+    if(game_over):
+        screen.create_oval(x_player-20,y_player-20,x_player+20,y_player+20,outline = "red")
+    else:
+        screen.after(delay_update.get(),update_screen)
 def render_fire():
     out = -1
     global fire_pos
@@ -40,8 +45,7 @@ def render_enemies():
         screen.create_image(enemy_pos[i][0],enemy_pos[i][1],image = heli,anchor = S)
         enemy_pos[i][1]+=speed_enemy.get()
         if(enemy_pos[i][1] >= screensize_y): out = i
-    if(out > -1): del(enemy_pos[out])
-        
+    if(out > -1): del(enemy_pos[out])   
 def to_left_on(x):
     global to_left
     to_left = True
@@ -69,6 +73,14 @@ def to_down_off(x):
 def new_fire(x):
     global fire_pos
     fire_pos.append([x_player,y_player])
+def detect_player_collision():
+    global game_over
+    for i in range(0,len(enemy_pos)):
+        if(enemy_pos[i][0] - 49 <= x_player <= enemy_pos[i][0] + 49):
+            if(enemy_pos[i][1] - 50 <= y_player <= enemy_pos[i][1]):
+                game_over = True
+                return
+
 ##Variables
 window = Tk()
 airplane = PhotoImage(file = "navinha.gif")
@@ -89,6 +101,7 @@ to_left = False
 to_right = False
 to_up = False
 to_down = False
+game_over = False
 screensize_x = 800
 screensize_y = 600
 ##SideBar
