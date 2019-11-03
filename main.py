@@ -1,7 +1,6 @@
 from tkinter import *
 import random
 
-
 ##Functions
 def update_screen():
     screen.delete("all")
@@ -151,7 +150,6 @@ screen.bind("<KeyRelease-w>",to_up_off)
 screen.bind("<Key-s>",to_down_on)
 screen.bind("<KeyRelease-s>",to_down_off)
 screen.bind("<Key-space>",new_fire)
-
 ##Final
 update_screen()
 window.mainloop()
