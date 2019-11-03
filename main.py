@@ -10,7 +10,7 @@ def update_screen():
     render_player()
     render_enemies()
     detect_player_collision()
-    #detect_fire_collision()
+    detect_fire_collision()
     screen.focus_set()
     if(game_over):
         screen.create_oval(x_player-20,y_player-20,x_player+20,y_player+20,outline = "red")
@@ -80,7 +80,15 @@ def detect_player_collision():
             if(enemy_pos[i][1] - 50 <= y_player <= enemy_pos[i][1]):
                 game_over = True
                 return
-
+def detect_fire_collision():
+    global enemy_pos
+    explode = -1
+    for i in range(0,len(fire_pos)):
+        for j in range(0,len(enemy_pos)):
+            if(enemy_pos[j][0] - 49 <= fire_pos[i][0] <= enemy_pos[j][0] + 49):
+                if(enemy_pos[j][1] - 50 <= fire_pos[i][1] <= enemy_pos[j][1]):
+                    explode = j
+    if(explode > -1): del(enemy_pos[explode])
 ##Variables
 window = Tk()
 airplane = PhotoImage(file = "navinha.gif")
