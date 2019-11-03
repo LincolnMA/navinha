@@ -10,7 +10,14 @@ def update_screen():
     screen.focus_set()
     screen.after(delay_update.get(),update_screen)
 def render_fire():
-    print("Render Fire!")
+    out = -1
+    global fire_pos
+    for i in range(0,len(fire_pos)):
+        screen.create_image(fire_pos[i][0],fire_pos[i][1],image = fire,anchor = N)
+        fire_pos[i][1] = fire_pos[i][1] - 1
+        if fire_pos[i][1] < 0: out = i
+    if out > -1: del(fire_pos[out])
+
 def render_player():
     global x_player
     global y_player
@@ -45,9 +52,14 @@ def to_down_on(x):
 def to_down_off(x):
     global to_down
     to_down = False
+def new_fire(x):
+    global fire_pos
+    fire_pos.append([x_player,y_player])
 ##Variables
 window = Tk()
 airplane = PhotoImage(file = "navinha.gif")
+fire = PhotoImage(file = "fire.gif")
+fire_pos = []
 x_player = 400
 y_player = 600
 delay_update = IntVar()
@@ -82,6 +94,7 @@ screen.bind("<Key-w>",to_up_on)
 screen.bind("<KeyRelease-w>",to_up_off)
 screen.bind("<Key-s>",to_down_on)
 screen.bind("<KeyRelease-s>",to_down_off)
+screen.bind("<Key-space>",new_fire)
 
 ##Final
 update_screen()
